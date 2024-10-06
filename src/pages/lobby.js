@@ -121,7 +121,7 @@ const Lobby = () => {
                 </Typography>
 
                 <Typography variant="body2" color="text.secondary">
-                  Level: {player.level}
+                  Level: 1
                 </Typography>
               </CardContent>
               <CardActions>

@@ -146,7 +146,7 @@ const StarterPage = () => {
           textAlign="center"
           variant="h2"
         >
-          Well meaning and kindly.
+          Globe Protocol Gamification
         </Typography>
         {!isSubmitting ? (
           <GetActionButton />

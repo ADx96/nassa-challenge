@@ -1,42 +1,64 @@
-import React from 'react';
+import React, { useState } from 'react';
 import QuestionAnswerCard from './glossy-card';
 import { Box, Container, IconButton } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { getQuestions } from '../api/game';
-import { useQuery } from 'react-query';
+import { getQuestions, SubmitAnswers } from '../api/game';
+import { useMutation, useQuery } from 'react-query';
 
-const QuestionsList = ({ handleNext }) => {
+const QuestionsList = ({ setIsCompleted }) => {
+  const [answers, setAnswers] = useState([]);
+
   const sessionId = sessionStorage.getItem('startSession');
 
-  const { data, isLoading } = useQuery(
-    ['Questions'],
+  const { mutate } = useMutation(() => SubmitAnswers(sessionId, answers), {
+    onSuccess: (data) => {},
+    onError: (error) => {
+      console.error('Error submitting answers:', error);
+    },
+  });
 
+  const { data: questions, isLoading } = useQuery(
+    ['Questions', sessionId],
     () => getQuestions(sessionId)
   );
 
+  const handleSubmit = () => {
+    mutate();
+    setIsCompleted(true);
+  };
+
   if (isLoading) {
-    return <h1>loading</h1>;
+    return <h1>Loading...</h1>;
   }
+
   return (
     <Container
       alignItems="center"
       display="flex"
-      flexDirection={'column'}
-      justifyContent={'center'}
-      width={'100%'}
+      flexDirection="column"
+      justifyContent="center"
+      width="100%"
     >
-      <QuestionAnswerCard question={data} answer={data} />
+      {questions.map((question, index) => (
+        <div style={{ marginTop: 20 }} key={question.Id}>
+          <QuestionAnswerCard
+            setAnswers={setAnswers}
+            questionData={question}
+            index={index}
+          />
+        </div>
+      ))}
 
       <Box
         display="flex"
         justifyContent="end"
         alignItems="end"
-        marginTop={'20px'}
+        marginTop="20px"
       >
         <IconButton
+          onClick={handleSubmit}
           style={{ backgroundColor: '#1A76D1' }}
           color="blue"
-          onClick={handleNext}
         >
           <ArrowForwardIcon style={{ color: 'white' }} />
         </IconButton>

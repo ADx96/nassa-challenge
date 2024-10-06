@@ -1,16 +1,57 @@
 import React from 'react';
 import SummaryCard from './summary-card';
-import { Box, Container } from '@mui/material';
+import { Box, Button, Container } from '@mui/material';
 import ScoreBox from './score-box';
+import { useQuery } from 'react-query';
+import { endGame, getResults } from '../api/game';
+import { useNavigate } from 'react-router-dom';
 
 const ScoreSummary = () => {
+  const sessionId = sessionStorage.getItem('startSession');
+  const navigate = useNavigate();
+
+  const { data, isLoading } = useQuery(['result'], () => getResults(sessionId));
+
+  if (isLoading) {
+    return <h2>Loading..</h2>;
+  }
+
+  const score = data.Scores[0]?.Score || 0;
+
+  const handleEndSession = async () => {
+    endGame(sessionId);
+    navigate('/dashboard');
+  };
+
   return (
     <Box>
       <Container maxWidth="sm">
-        <ScoreBox />
-        <SummaryCard />
-        <SummaryCard />
+        <ScoreBox score={score} />
+        {data.Questions.map((question, index) => (
+          <SummaryCard
+            key={question.Id}
+            question={question}
+            correctAnswer={question.Correct}
+            userAnswer={data.Answers[index]} // Assuming the Answers array is in the same order as Questions
+          />
+        ))}
       </Container>
+      <Box display="flex" justifyContent="center" marginBottom="10px">
+        <Button
+          onClick={handleEndSession}
+          variant="contained"
+          sx={{
+            backgroundColor: '#007bff',
+            color: '#fff',
+            width: '300px', // Fixed width for the button
+            '&:hover': {
+              backgroundColor: '#0056b3',
+            },
+          }}
+        >
+          End session
+        </Button>
+      </Box>
     </Box>
   );
 };

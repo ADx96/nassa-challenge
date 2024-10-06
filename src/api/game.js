@@ -32,11 +32,12 @@ const endGame = async (GameSessionId) => {
   return data;
 };
 
-const SubmitAnswers = async (GameSessionId) => {
+const SubmitAnswers = async (GameSessionId, bodyData) => {
   const user = JSON.parse(sessionStorage.getItem('user'));
 
   const { data } = await axiosInstance.post(
-    `/SubmitAnswers?GameSessionId=${GameSessionId}&Username=${user?.username}`
+    `/SubmitAnswers?GameSessionId=${GameSessionId}&Username=${user?.username}`,
+    bodyData
   );
   return data;
 };

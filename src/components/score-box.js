@@ -17,7 +17,9 @@ const ScoreBox = ({ score }) => {
       }}
     >
       <Typography variant="h5">Your Score: {score}</Typography>
-      <Typography variant="h6">Username: {user?.username}</Typography>
+      <Typography variant="h6">
+        Username: {user?.username || 'Guest'}
+      </Typography>
     </Box>
   );
 };

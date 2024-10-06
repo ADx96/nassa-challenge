@@ -17,13 +17,13 @@ const GlossyCard = styled(Card)(({ theme }) => ({
 
 const AnimatedCardContent = motion(Box);
 
-// Styled bubble for answers
 const AnswerBubble = styled(motion(Box))(({ isSelected }) => ({
   background: isSelected ? '#3e8e0c' : '#a1a0a02e',
   borderRadius: '20px',
   padding: '10px 15px',
   margin: '10px 0',
   cursor: 'pointer',
+  marginBottom: '30px',
   display: 'inline-block',
   transition: 'background-color 0.3s',
   '&:hover': {
@@ -31,23 +31,24 @@ const AnswerBubble = styled(motion(Box))(({ isSelected }) => ({
   },
 }));
 
-const QuestionAnswerCard = ({ question, answer }) => {
+const QuestionAnswerCard = ({ questionData, setAnswers, index }) => {
   const [shouldOpen, setShouldOpen] = useState(false);
-  const [selected, setSelected] = useState(false); // Track selection state
+  const [selectedAnswer, setSelectedAnswer] = useState(null); // Track selected answer
 
   useEffect(() => {
     setShouldOpen(false);
-    setSelected(false); // Reset selection when question changes
+    setSelectedAnswer(null); // Reset selection when question changes
 
     const timer = setTimeout(() => {
       setShouldOpen(true);
     }, 300);
 
     return () => clearTimeout(timer);
-  }, [question]);
+  }, [questionData]);
 
-  const handleBubbleClick = () => {
-    setSelected((prev) => !prev);
+  const handleAnswerClick = (answer) => {
+    setSelectedAnswer(answer);
+    setAnswers((prev) => [...prev, answer]);
   };
 
   return (
@@ -59,7 +60,7 @@ const QuestionAnswerCard = ({ question, answer }) => {
           paddingBottom="20px"
           component="div"
         >
-          {'Question one'}
+          Question {index + 1}
         </Typography>
         <AnimatedCardContent
           initial={{ opacity: 0, height: 0 }}
@@ -70,21 +71,28 @@ const QuestionAnswerCard = ({ question, answer }) => {
           transition={{ duration: 0.5 }}
           style={{ overflow: 'hidden' }}
         >
-          <Typography variant="h5" component="div">
-            {question}
+          <Typography variant="h6" component="div" paddingBottom="20px">
+            {questionData.Question}
           </Typography>
-          <AnswerBubble
-            isSelected={selected}
-            onClick={handleBubbleClick}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Typography
-              variant="body2"
-              color={selected ? 'white' : 'text.primary'}
+          {['A1', 'A2', 'A3', 'A4'].map((answerKey) => (
+            <AnswerBubble
+              key={answerKey}
+              isSelected={selectedAnswer === questionData[answerKey]}
+              onClick={() => handleAnswerClick(questionData[answerKey])}
+              whileTap={{ scale: 0.95 }}
             >
-              {answer}
-            </Typography>
-          </AnswerBubble>
+              <Typography
+                variant="body2"
+                color={
+                  selectedAnswer === questionData[answerKey]
+                    ? 'white'
+                    : 'text.primary'
+                }
+              >
+                {questionData[answerKey]}
+              </Typography>
+            </AnswerBubble>
+          ))}
         </AnimatedCardContent>
       </CardContent>
     </GlossyCard>

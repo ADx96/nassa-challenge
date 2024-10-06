@@ -17,7 +17,6 @@ const LevelCard = ({ title, level, percentageToNextLevel }) => {
         width: '100%',
         position: 'relative',
         overflow: 'hidden',
-        background: 'linear-gradient(135deg, #e3f2fd 30%, #bbdefb 90%)', // Blue gradient background
         transition: 'transform 0.3s ease, box-shadow 0.3s ease', // Animation for hover effect
         '&:hover': {
           transform: 'scale(1.05)', // Slightly scale on hover
