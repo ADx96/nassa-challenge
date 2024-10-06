@@ -22,7 +22,7 @@ const Lobby = () => {
   const isAdmin = user?.isHost;
   const sessionId = sessionStorage.getItem('startSession');
 
-  const { data: status } = useQuery(
+  const { data: status, isLoading: isStatusLoading } = useQuery(
     ['sessionStatus', sessionId],
 
     () => checkGameStatus(sessionId),
@@ -60,7 +60,7 @@ const Lobby = () => {
     navigate('/questions');
   };
 
-  if (isLoading) return <CircularProgress />; // Show loading indicator
+  if (isLoading || isStatusLoading) return <CircularProgress />; // Show loading indicator
 
   return (
     <>

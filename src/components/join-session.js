@@ -14,7 +14,7 @@ const JoinSession = () => {
 
   const { mutate } = useMutation(() => joinGame(sessionId), {
     onSuccess: (data) => {
-      sessionStorage.setItem('startSession', data);
+      sessionStorage.setItem('startSession', sessionId);
     },
     onError: (error) => {
       console.error('Error creating game:', error);
