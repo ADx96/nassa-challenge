@@ -35,7 +35,7 @@ const ScoreSummary = () => {
   return (
     <Box>
       <Container maxWidth="sm">
-        <ScoreBox score={filteredScores[0]?.Score} />
+        <ScoreBox score={filteredScores[0]?.Score || 0} />
         {data.Questions.map((question, index) => (
           <SummaryCard
             key={question.Id}
