@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import QuestionAnswerCard from './glossy-card';
-import { Box, Container, IconButton } from '@mui/material';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { Box, Button, Container } from '@mui/material';
 import { getQuestions, SubmitAnswers } from '../api/game';
 import { useMutation, useQuery } from 'react-query';
 
@@ -51,17 +50,28 @@ const QuestionsList = ({ setIsCompleted }) => {
 
       <Box
         display="flex"
-        justifyContent="end"
-        alignItems="end"
+        justifyContent="center"
+        alignItems="center"
         marginTop="20px"
+        marginBottom="40px"
       >
-        <IconButton
+        <Button
+          fullWidth
           onClick={handleSubmit}
           style={{ backgroundColor: '#1A76D1' }}
           color="blue"
+          sx={{
+            marginTop: 4,
+            backgroundColor: '#007bff',
+            color: '#fff',
+            borderRadius: '8px',
+            '&:hover': {
+              backgroundColor: '#0056b3',
+            },
+          }}
         >
-          <ArrowForwardIcon style={{ color: 'white' }} />
-        </IconButton>
+          Submit
+        </Button>
       </Box>
     </Container>
   );

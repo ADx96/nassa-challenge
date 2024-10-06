@@ -10,8 +10,13 @@ const ScoreSummary = () => {
   const sessionId = sessionStorage.getItem('startSession');
   const navigate = useNavigate();
 
-  const { data, isLoading } = useQuery(['result'], () => getResults(sessionId));
-
+  const { data, isLoading } = useQuery(
+    ['result'],
+    () => getResults(sessionId),
+    {
+      refetchInterval: 3000,
+    }
+  );
   if (isLoading) {
     return <h2>Loading..</h2>;
   }
