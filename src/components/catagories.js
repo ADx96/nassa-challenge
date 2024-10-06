@@ -93,8 +93,6 @@ const CategorySelection = ({ type, setStep }) => {
         {ageGroups.map((group) => (
           <Grid item xs={12} sm={6} md={6} key={group.value}>
             <StyledCard img={group.img}>
-              {/* Added category title */}
-
               <Button
                 onClick={() => handleSelectCategory(group.value)}
                 sx={{
@@ -130,7 +128,6 @@ const CategorySelection = ({ type, setStep }) => {
                     width: '40%',
                   }}
                 >
-                  {'Title'}
                   <Typography variant="h6">Age Group:{group.label}</Typography>
                 </Typography>
               </Button>
