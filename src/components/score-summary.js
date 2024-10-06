@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 
 const ScoreSummary = () => {
   const sessionId = sessionStorage.getItem('startSession');
+  const user = JSON.parse(sessionStorage.getItem('user'));
+
   const navigate = useNavigate();
 
   const { data, isLoading } = useQuery(
@@ -21,7 +23,9 @@ const ScoreSummary = () => {
     return <h2>Loading..</h2>;
   }
 
-  const score = data.Scores[0]?.Score || 0;
+  const filteredScores = data.Scores.filter(
+    (score) => score.Username === user.username
+  );
 
   const handleEndSession = async () => {
     endGame(sessionId);
@@ -31,7 +35,7 @@ const ScoreSummary = () => {
   return (
     <Box>
       <Container maxWidth="sm">
-        <ScoreBox score={score} />
+        <ScoreBox score={filteredScores[0]?.Score} />
         {data.Questions.map((question, index) => (
           <SummaryCard
             key={question.Id}
