@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'https://jsonplaceholder.typicode.com', // Replace with your API base URL
+  baseURL: 'https://q8javax.outsystemscloud.com/Ta2leefCMS/rest/Taleef',
 });
 
 export default axiosInstance;
