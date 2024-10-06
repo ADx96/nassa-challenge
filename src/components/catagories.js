@@ -6,23 +6,23 @@ import { styled } from '@mui/system';
 // Define the age groups with square images
 const ageGroups = [
   {
-    label: '0-5',
-    value: '0-5',
+    label: '5-9',
+    value: '5-9',
     img: 'https://images.unsplash.com/photo-1502318217862-aa4e294ba657?q=80&w=2143&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   },
   {
-    label: '6-10',
-    value: '6-10',
+    label: '10-15',
+    value: '10-15',
     img: 'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0',
   },
   {
-    label: '11-17',
+    label: '15-20',
     value: '11-17',
     img: 'https://images.unsplash.com/photo-1517841905240-472988babdf9',
   },
   {
-    label: '18-30',
-    value: '16-30',
+    label: '20+',
+    value: '20+',
     img: 'https://plus.unsplash.com/premium_photo-1677511580659-f5fa0675a547?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   },
 ];
