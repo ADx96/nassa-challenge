@@ -2,43 +2,21 @@ import React from 'react';
 import QuestionAnswerCard from './glossy-card';
 import { Box, Container, IconButton } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { getQuestions } from '../api/game';
+import { useQuery } from 'react-query';
 
-// List of questions
-const questions = [
-  {
-    id: 1,
-    question: 'What is React?',
-    answer: 'React is a JavaScript library for building user interfaces.',
-  },
-  {
-    id: 2,
-    question: 'What is a component in React?',
-    answer: 'A component in React is a reusable piece of the UI.',
-  },
-  {
-    id: 3,
-    question: 'Explain state and props in React.',
-    answer:
-      'State is a data structure that holds information that may change over time, while props are inputs passed to a component to configure it.',
-  },
-  {
-    id: 4,
-    question: 'What are hooks in React?',
-    answer:
-      'Hooks are special functions that allow you to use state and other React features without writing a class.',
-  },
-  {
-    id: 5,
-    question: 'What is JSX?',
-    answer:
-      'JSX is a syntax extension that allows mixing HTML with JavaScript in React.',
-  },
-];
+const QuestionsList = ({ handleNext }) => {
+  const sessionId = sessionStorage.getItem('startSession');
 
-const QuestionsList = ({ activeStep, handleNext, steps }) => {
-  const currentQuestion = questions[activeStep]; // Get the current question based on activeStep
-  const question = currentQuestion?.question;
-  const answer = currentQuestion?.answer;
+  const { data, isLoading } = useQuery(
+    ['Questions'],
+
+    () => getQuestions(sessionId)
+  );
+
+  if (isLoading) {
+    return <h1>loading</h1>;
+  }
   return (
     <Container
       alignItems="center"
@@ -47,7 +25,7 @@ const QuestionsList = ({ activeStep, handleNext, steps }) => {
       justifyContent={'center'}
       width={'100%'}
     >
-      <QuestionAnswerCard question={question} answer={answer} />
+      <QuestionAnswerCard question={data} answer={data} />
 
       <Box
         display="flex"

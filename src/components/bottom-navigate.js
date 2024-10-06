@@ -1,10 +1,5 @@
 import * as React from 'react';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
-} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import BottomNavigation from '@mui/material/BottomNavigation';
@@ -16,25 +11,8 @@ import Paper from '@mui/material/Paper';
 import { motion } from 'framer-motion';
 
 const FixedBottomNavigation = () => {
-  const [value, setValue] = React.useState(0);
+  const [value] = React.useState(0);
   const navigate = useNavigate();
-
-  const handleNavigation = (newValue) => {
-    setValue(newValue);
-    switch (newValue) {
-      case 0:
-        navigate('/recents');
-        break;
-      case 1:
-        navigate('/play');
-        break;
-      case 2:
-        navigate('/dashboard');
-        break;
-      default:
-        break;
-    }
-  };
 
   return (
     <Box
@@ -58,8 +36,6 @@ const FixedBottomNavigation = () => {
         elevation={3}
       >
         <BottomNavigation
-          value={value}
-          onChange={(event, newValue) => handleNavigation(newValue)}
           sx={{
             backgroundColor: '#111111',
             borderRadius: 24,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   Box,
   Card,
@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from 'react-query';
-import { getSessionPlayers, startGame } from '../api/game';
+import { checkGameStatus, getSessionPlayers, startGame } from '../api/game';
 
 const Lobby = () => {
   const currentUserId = 1;
@@ -20,13 +20,18 @@ const Lobby = () => {
 
   const user = JSON.parse(sessionStorage.getItem('user'));
   const isAdmin = user?.isHost;
-
   const sessionId = sessionStorage.getItem('startSession');
-  const {
-    data: players,
-    error,
-    isLoading,
-  } = useQuery(
+
+  const { data: status } = useQuery(
+    ['sessionStatus', sessionId],
+
+    () => checkGameStatus(sessionId),
+    {
+      refetchInterval: 3000, // Refetch every 3 seconds
+    }
+  );
+
+  const { data: players, isLoading } = useQuery(
     ['sessionPlayers', sessionId],
 
     () => getSessionPlayers(sessionId),
@@ -35,28 +40,24 @@ const Lobby = () => {
     }
   );
 
-  const { mutate, data } = useMutation(() => startGame(sessionId), {
+  const { mutate } = useMutation(() => startGame(sessionId), {
     onSuccess: (data) => {},
     onError: (error) => {
       console.error('Error creating game:', error);
     },
   });
 
-  console.log(players);
-
-  // useEffect(() => {
-  //   if (players.length >= 7) {
-  //     setTimeout(() => {
-  //       navigate('/lobby');
-  //     }, 3000);
-  //   }
-  // }, [navigate, players]);
+  useEffect(() => {
+    if (status === 'ingame') {
+      setTimeout(() => {
+        navigate('/questions');
+      }, 3000);
+    }
+  }, [navigate, status]);
 
   const handleStart = () => {
     mutate();
-    setTimeout(() => {
-      navigate('/lobby');
-    }, 3000);
+    navigate('/questions');
   };
 
   if (isLoading) return <CircularProgress />; // Show loading indicator
@@ -83,7 +84,7 @@ const Lobby = () => {
           SessionId:{sessionId}
         </Typography>
         <Typography variant="h6" mb={2}>
-          Total Players: {players.length}/10
+          Total Players: {players.length}/6
         </Typography>
         <Box display="flex" flexWrap="wrap" justifyContent="center">
           {players.map((player) => (

@@ -36,7 +36,7 @@ export const routes = createBrowserRouter([
     ),
   },
   {
-    path: '/Questions',
+    path: '/questions',
     element: (
       <>
         <TopBar />

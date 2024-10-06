@@ -15,10 +15,8 @@ const joinGame = async (gameSessionId) => {
   return data;
 };
 
-const startGame = async () => {
+const startGame = async (GameSessionId) => {
   const secret = sessionStorage.getItem('secret') || null;
-  const GameSessionId = sessionStorage.getItem('startSession') || null;
-
   const { data } = await axiosInstance.post(
     `/StartGameSession?Secret=${secret}&GameSessionId=${GameSessionId}`
   );
@@ -68,7 +66,7 @@ const getQuestions = async (GameSessionId) => {
 
 const checkGameStatus = async (GameSessionId) => {
   const { data } = await axiosInstance.get(
-    `/GetSessionQuestions?GameSessionId=${GameSessionId}`
+    `/CheckGameSessionStatus?GameSessionId=${GameSessionId}`
   );
   return data;
 };

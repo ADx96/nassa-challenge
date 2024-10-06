@@ -12,17 +12,14 @@ const JoinSession = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const { mutate, isLoading, isError, data, error } = useMutation(
-    () => joinGame(sessionId),
-    {
-      onSuccess: (data) => {
-        sessionStorage.setItem('startSession', data);
-      },
-      onError: (error) => {
-        console.error('Error creating game:', error);
-      },
-    }
-  );
+  const { mutate } = useMutation(() => joinGame(sessionId), {
+    onSuccess: (data) => {
+      sessionStorage.setItem('startSession', data);
+    },
+    onError: (error) => {
+      console.error('Error creating game:', error);
+    },
+  });
 
   const handleJoinSession = () => {
     if (sessionId) {

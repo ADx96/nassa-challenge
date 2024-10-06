@@ -12,12 +12,8 @@ const StartSession = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const {
-    mutate: mutateGame,
-    isLoading,
-    error,
-  } = useMutation((id) => joinGame(id), {
-    onSuccess: (data) => {
+  const { mutate: mutateGame } = useMutation((id) => joinGame(id), {
+    onSuccess: () => {
       QueryClient.invalidateQueries('gameSessions');
     },
     onError: (error) => {
@@ -25,7 +21,7 @@ const StartSession = () => {
     },
   });
 
-  const { mutate, data } = useMutation(() => createGame(password), {
+  const { mutate } = useMutation(() => createGame(password), {
     onSuccess: (data) => {
       mutateGame(data);
       sessionStorage.setItem('startSession', data);
